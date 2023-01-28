@@ -102,4 +102,46 @@ public class HomeController {
         }
         refresh();
     } // end moveRight
+
+    public void moveDown(ActionEvent event) {
+        for(int i = 0; i < gameBoard.length; i++) {
+            ArrayList<Integer> tempArrayList = new ArrayList<>();;
+            for (int j = 0; j < gameBoard.length; j++) {
+
+                if (gameBoard[j][i] != 0) {
+                    tempArrayList.add(gameBoard[j][i]);
+                }
+                gameBoard[j][i] = 0;
+            }
+
+            System.out.println(tempArrayList);
+
+            int difference = gameBoard.length - tempArrayList.size();
+            for (int k = difference; k < gameBoard.length; k++) {
+                gameBoard[k][i] = tempArrayList.get(0);
+                tempArrayList.remove(0);
+            }
+        }
+        refresh();
+    } // end moveDown
+
+    public void moveUp(ActionEvent event) {
+        for(int i = 0; i < gameBoard.length; i++) {
+            ArrayList<Integer> tempArrayList = new ArrayList<>();;
+            for (int j = 0; j < gameBoard.length; j++) {
+
+                if (gameBoard[j][i] != 0) {
+                    tempArrayList.add(gameBoard[j][i]);
+                }
+                gameBoard[j][i] = 0;
+            }
+
+            System.out.println(tempArrayList);
+
+            for (int k = 0; k < tempArrayList.size(); k++) {
+                gameBoard[k][i] = tempArrayList.get(k);
+            }
+        }
+        refresh();
+    } // end moveUp
 }
