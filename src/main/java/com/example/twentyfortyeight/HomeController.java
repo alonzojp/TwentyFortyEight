@@ -10,6 +10,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
+import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 public class HomeController {
@@ -22,29 +24,82 @@ public class HomeController {
     int[][] gameBoard = new int[4][4];
 
     public void initialize() {
-        spawn();
+        spawn(3);
         for(int i = 0; i < gameBoard.length; i++) {
             for(int j = 0; j < gameBoard.length; j++) {
                 int number = gameBoard[i][j];
-                Image tempImage = new Image(getClass().getResourceAsStream(number + "icon.png"));
+                Image tempImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream(number + "icon.png")));
                 ImageView tempImageView = new ImageView(tempImage);
-                boardPane.add(tempImageView, i, j);
+                boardPane.add(tempImageView, j, i);
             }
         }
     } // end initialize
 
-    public void spawn() {
+    public void refresh() {
+        spawn(1);
+        for(int i = 0; i < gameBoard.length; i++) {
+            for(int j = 0; j < gameBoard.length; j++) {
+                int number = gameBoard[i][j];
+                Image tempImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream(number + "icon.png")));
+                ImageView tempImageView = new ImageView(tempImage);
+                boardPane.add(tempImageView, j, i);
+            }
+        }
+    } // end refresh
+
+    public void spawn(int spawnCount) {
         Random rng = new Random();
         int counter = 0;
-        while(counter != 3) {
+        while(counter != spawnCount) {
             int randomColumn = rng.nextInt(gameBoard.length);
             int randomRow = rng.nextInt(gameBoard.length);
-            if(gameBoard[randomColumn][randomRow] == 0) {
-                gameBoard[randomColumn][randomRow] = 2;
-                System.out.println(randomColumn + " | " + randomRow);
+            if(gameBoard[randomRow][randomColumn] == 0) {
+                gameBoard[randomRow][randomColumn] = 2;
+                System.out.println(randomRow + ", " + randomColumn);
                 counter++;
             }
         }
-    }
+    } // end spawn
 
+    public void moveLeft(ActionEvent event) {
+        for(int i = 0; i < gameBoard.length; i++) {
+            ArrayList<Integer> tempArrayList = new ArrayList<>();;
+            for (int j = 0; j < gameBoard.length; j++) {
+
+                if (gameBoard[i][j] != 0) {
+                    tempArrayList.add(gameBoard[i][j]);
+                }
+                gameBoard[i][j] = 0;
+            }
+
+            System.out.println(tempArrayList);
+
+            for (int k = 0; k < tempArrayList.size(); k++) {
+                gameBoard[i][k] = tempArrayList.get(k);
+            }
+        }
+        refresh();
+    } // end moveLeft
+
+    public void moveRight(ActionEvent event) {
+        for(int i = 0; i < gameBoard.length; i++) {
+            ArrayList<Integer> tempArrayList = new ArrayList<>();;
+            for (int j = 0; j < gameBoard.length; j++) {
+
+                if (gameBoard[i][j] != 0) {
+                    tempArrayList.add(gameBoard[i][j]);
+                }
+                gameBoard[i][j] = 0;
+            }
+
+            System.out.println(tempArrayList);
+
+            int difference = gameBoard.length - tempArrayList.size();
+            for (int k = difference; k < gameBoard.length; k++) {
+                gameBoard[i][k] = tempArrayList.get(0);
+                tempArrayList.remove(0);
+            }
+        }
+        refresh();
+    } // end moveRight
 }
