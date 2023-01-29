@@ -24,5 +24,6 @@
       <Button fx:id="downButton" layoutX="511.0" layoutY="188.0" mnemonicParsing="false" onAction="#moveDown" text="˅" />
       <Button fx:id="upButton" layoutX="510.0" layoutY="162.0" mnemonicParsing="false" onAction="#moveUp" text="^" />
       <Label fx:id="gameLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="129.0" layoutY="15.0" prefHeight="18.0" prefWidth="341.0" />
+      <Button fx:id="resetButton" layoutX="483.0" layoutY="325.0" mnemonicParsing="false" onAction="#resetBoard" text="Reset Board" />
    </children>
 </AnchorPane>

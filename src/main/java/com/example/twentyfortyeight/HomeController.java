@@ -27,13 +27,23 @@ public class HomeController {
     @FXML
     Button downButton;
     @FXML
+    Button resetButton;
+    @FXML
     Label gameLabel;
 
     int[][] gameBoard = new int[4][4];
     int loseCounter = 0;
     int currentSize = 0;
 
-
+    public void resetBoard() {
+        gameBoard = new int[4][4];
+        initialize();
+        leftButton.setDisable(false);
+        rightButton.setDisable(false);
+        upButton.setDisable(false);
+        downButton.setDisable(false);
+        boardPane.setDisable(false);
+    }
     public void updateBoard() {
         for(int i = 0; i < gameBoard.length; i++) {
             for(int j = 0; j < gameBoard.length; j++) {
@@ -55,7 +65,7 @@ public class HomeController {
     }
 
     public void initialize() {
-        gameLabel.setText("Reach 2048!");
+        gameLabel.setText("Reach TwentyFortyEight!");
         spawn(3);
         updateBoard();
     } // end initialize
