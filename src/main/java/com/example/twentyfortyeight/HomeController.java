@@ -23,28 +23,28 @@ public class HomeController {
 
     int[][] gameBoard = new int[4][4];
 
-    public void initialize() {
-        spawn(3);
+    public void updateBoard() {
         for(int i = 0; i < gameBoard.length; i++) {
             for(int j = 0; j < gameBoard.length; j++) {
                 int number = gameBoard[i][j];
-                Image tempImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream(number + "icon.png")));
+                Image tempImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream(number + ".png")));
                 ImageView tempImageView = new ImageView(tempImage);
                 boardPane.add(tempImageView, j, i);
             }
         }
+    }
+
+    public void checkMerge() {
+
+    }
+    public void initialize() {
+        spawn(3);
+        updateBoard();
     } // end initialize
 
     public void refresh() {
         spawn(1);
-        for(int i = 0; i < gameBoard.length; i++) {
-            for(int j = 0; j < gameBoard.length; j++) {
-                int number = gameBoard[i][j];
-                Image tempImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream(number + "icon.png")));
-                ImageView tempImageView = new ImageView(tempImage);
-                boardPane.add(tempImageView, j, i);
-            }
-        }
+        updateBoard();
     } // end refresh
 
     public void spawn(int spawnCount) {
@@ -54,8 +54,13 @@ public class HomeController {
             int randomColumn = rng.nextInt(gameBoard.length);
             int randomRow = rng.nextInt(gameBoard.length);
             if(gameBoard[randomRow][randomColumn] == 0) {
-                gameBoard[randomRow][randomColumn] = 2;
-                System.out.println(randomRow + ", " + randomColumn);
+                int random = rng.nextInt(4);
+                if(random == 0) {
+                    gameBoard[randomRow][randomColumn] = 4;
+                }
+                else {
+                    gameBoard[randomRow][randomColumn] = 2;
+                }
                 counter++;
             }
         }
@@ -70,6 +75,15 @@ public class HomeController {
                     tempArrayList.add(gameBoard[i][j]);
                 }
                 gameBoard[i][j] = 0;
+            }
+
+            if(tempArrayList.size() > 1) {
+                for(int l = 0; l < tempArrayList.size() - 1; l++) {
+                    if(tempArrayList.get(l) == tempArrayList.get(l+1)) {
+                        tempArrayList.set(l, tempArrayList.get(l)*2);
+                        tempArrayList.remove(l+1);
+                    }
+                }
             }
 
             System.out.println(tempArrayList);
@@ -90,6 +104,15 @@ public class HomeController {
                     tempArrayList.add(gameBoard[i][j]);
                 }
                 gameBoard[i][j] = 0;
+            }
+
+            if(tempArrayList.size() > 1) {
+                for(int l = 0; l < tempArrayList.size() - 1; l++) {
+                    if(tempArrayList.get(l) == tempArrayList.get(l+1)) {
+                        tempArrayList.set(l, tempArrayList.get(l)*2);
+                        tempArrayList.remove(l+1);
+                    }
+                }
             }
 
             System.out.println(tempArrayList);
@@ -114,6 +137,15 @@ public class HomeController {
                 gameBoard[j][i] = 0;
             }
 
+            if(tempArrayList.size() > 1) {
+                for(int l = 0; l < tempArrayList.size() - 1; l++) {
+                    if(tempArrayList.get(l) == tempArrayList.get(l+1)) {
+                        tempArrayList.set(l, tempArrayList.get(l)*2);
+                        tempArrayList.remove(l+1);
+                    }
+                }
+            }
+
             System.out.println(tempArrayList);
 
             int difference = gameBoard.length - tempArrayList.size();
@@ -134,6 +166,15 @@ public class HomeController {
                     tempArrayList.add(gameBoard[j][i]);
                 }
                 gameBoard[j][i] = 0;
+            }
+
+            if(tempArrayList.size() > 1) {
+                for(int l = 0; l < tempArrayList.size() - 1; l++) {
+                    if(tempArrayList.get(l) == tempArrayList.get(l+1)) {
+                        tempArrayList.set(l, tempArrayList.get(l)*2);
+                        tempArrayList.remove(l+1);
+                    }
+                }
             }
 
             System.out.println(tempArrayList);
