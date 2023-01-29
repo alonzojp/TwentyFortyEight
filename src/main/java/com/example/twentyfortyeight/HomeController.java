@@ -19,9 +19,20 @@ public class HomeController {
     @FXML
     GridPane boardPane;
     @FXML
-    Button testButton;
+    Button leftButton;
+    @FXML
+    Button rightButton;
+    @FXML
+    Button upButton;
+    @FXML
+    Button downButton;
+    @FXML
+    Label gameLabel;
 
     int[][] gameBoard = new int[4][4];
+    int loseCounter = 0;
+    int currentSize = 0;
+
 
     public void updateBoard() {
         for(int i = 0; i < gameBoard.length; i++) {
@@ -34,17 +45,34 @@ public class HomeController {
         }
     }
 
-    public void checkMerge() {
-
+    public void displayLose() {
+        leftButton.setDisable(true);
+        rightButton.setDisable(true);
+        upButton.setDisable(true);
+        downButton.setDisable(true);
+        boardPane.setDisable(true);
+        gameLabel.setText("Game Over!");
     }
+
     public void initialize() {
+        gameLabel.setText("Reach 2048!");
         spawn(3);
         updateBoard();
     } // end initialize
 
     public void refresh() {
-        spawn(1);
+        if(loseCounter == 5) {
+            displayLose();
+        }
+        if(currentSize != 16) {
+            spawn(1);
+            loseCounter = 0;
+        }
+        else {
+            loseCounter++;
+        }
         updateBoard();
+        currentSize = 0;
     } // end refresh
 
     public void spawn(int spawnCount) {
@@ -54,8 +82,11 @@ public class HomeController {
             int randomColumn = rng.nextInt(gameBoard.length);
             int randomRow = rng.nextInt(gameBoard.length);
             if(gameBoard[randomRow][randomColumn] == 0) {
-                int random = rng.nextInt(4);
+                int random = rng.nextInt(10);
                 if(random == 0) {
+                    gameBoard[randomRow][randomColumn] = 8;
+                }
+                else if(random == 1 || random == 2) {
                     gameBoard[randomRow][randomColumn] = 4;
                 }
                 else {
@@ -73,6 +104,7 @@ public class HomeController {
 
                 if (gameBoard[i][j] != 0) {
                     tempArrayList.add(gameBoard[i][j]);
+                    currentSize++;
                 }
                 gameBoard[i][j] = 0;
             }
@@ -96,12 +128,14 @@ public class HomeController {
     } // end moveLeft
 
     public void moveRight(ActionEvent event) {
+
         for(int i = 0; i < gameBoard.length; i++) {
             ArrayList<Integer> tempArrayList = new ArrayList<>();;
             for (int j = 0; j < gameBoard.length; j++) {
 
                 if (gameBoard[i][j] != 0) {
                     tempArrayList.add(gameBoard[i][j]);
+                    currentSize++;
                 }
                 gameBoard[i][j] = 0;
             }
@@ -127,12 +161,14 @@ public class HomeController {
     } // end moveRight
 
     public void moveDown(ActionEvent event) {
+
         for(int i = 0; i < gameBoard.length; i++) {
             ArrayList<Integer> tempArrayList = new ArrayList<>();;
             for (int j = 0; j < gameBoard.length; j++) {
 
                 if (gameBoard[j][i] != 0) {
                     tempArrayList.add(gameBoard[j][i]);
+                    currentSize++;
                 }
                 gameBoard[j][i] = 0;
             }
@@ -158,12 +194,14 @@ public class HomeController {
     } // end moveDown
 
     public void moveUp(ActionEvent event) {
+
         for(int i = 0; i < gameBoard.length; i++) {
             ArrayList<Integer> tempArrayList = new ArrayList<>();;
             for (int j = 0; j < gameBoard.length; j++) {
 
                 if (gameBoard[j][i] != 0) {
                     tempArrayList.add(gameBoard[j][i]);
+                    currentSize++;
                 }
                 gameBoard[j][i] = 0;
             }
